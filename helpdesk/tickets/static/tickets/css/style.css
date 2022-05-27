@@ -1,0 +1,110 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;	
+}
+.root{
+	height: 100%;
+	width: 250px;
+	position: absolute;
+	background: #151515;
+	z-index: 1;
+	transition: 0.5 ease;
+	transform: translate(0);
+}
+
+.root .head{
+	color:  #fbfdce;
+	font-size: 30px;
+	font-weight: bold;
+	padding: 30px;
+	text-transform: uppercase;
+	text-align: center;
+	letter-spacing: 3px;
+	background: linear-gradient(30deg,#df0155,#ed4901);
+}
+
+ol{
+
+	width: 100%;
+	list-style: none;
+}
+
+ol li{
+	display: block;
+	width: 100%;
+}
+
+ol li a{
+	color: #fbfdce;
+	padding: 15px 10px;
+	text-decoration: none;
+	display: block;
+	font-size: 20px;
+	letter-spacing: 1px;
+	position: relative;
+	transition: 0.3s;
+	overflow: hidden;
+	text-transform: capitalize;
+}
+
+ol li a i{
+	width: 70px;
+	font-size: 25px;
+	text-align: center;
+	padding-left: 30px;
+
+}
+
+ol li:hover a{
+	background: #030303;
+	color: #00eaff;
+	letter-spacing: 5px;
+}
+
+header{
+	margin-left: 726px;
+}
+
+.dws-menu *{
+	margin: 0;
+	padding: 0;
+}
+
+.dws-menu ul,
+.dws-menu ol{
+	list-style: none;
+}
+
+.dws-menu > ul{
+	display: flex;
+	justify-content: center;
+}
+
+.dws-menu > ul li a{
+	display: block;
+	background: #ececed;
+	padding: 15px 100px 15px;
+	font-size: 14px;
+	color: #454547;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: all 0.3s ease;
+}
+
+.dws-menu > ul li{
+	position: relative;
+	border-right: 1px solid #babbbb;
+}
+
+.dws-menu > ul li:first-child{
+	border-left: 1px solid #b2b3b5;
+}
+
+.dws-menu li a:hover{
+	background: #454547;
+	color: #ffffff;
+	box-shadow: 1px 5px 10px -5px black;
+	transition: all 0.3s ease;
+}
