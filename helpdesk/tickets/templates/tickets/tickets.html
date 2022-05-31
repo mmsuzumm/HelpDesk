@@ -5,7 +5,7 @@
 <ul>
     {% for t in tickets_params %}
     <li>
-        <h2>{{t.title}}</h2>
+        <a href="{{ t.get_absolute_url }}"><h2>{{t.title}}</h2></a>
         <p>Последнюю редакцию произвел <b>{{t.updated_by}}</b></p>
         <hr>
     </li>
