@@ -1,7 +1,7 @@
 from django import template
-from tickets.models import *
-
+from tickets.models import Tickets
 register = template.Library()
+
 
 @register.simple_tag(name='menu')
 def get_menu():
@@ -10,10 +10,9 @@ def get_menu():
         {'title': 'Тикеты', 'url_name': 'tickets'},
         {'title': 'Настройки', 'url_name': 'settings'},
         {'title': 'О нас', 'url_name': 'about'},
+        {'title': 'Поддержка', 'url_name': 'support'},
     ]
     return menu
-
-
 
 
 @register.inclusion_tag('tickets/show_tickets.html')

@@ -4,7 +4,7 @@
 }
 
 body{
-	background: #5E5C64FF;
+	background: #C0BFBCFF;
 }
 
 header{
@@ -34,4 +34,30 @@ header{
 
 .Top_menu a:hover{
 	color: #99C1F1FF;
+}
+
+.title{
+	color: #3584E4FF;
+	text-align: center;
+}
+
+.tickets{
+	text-decoration: none;
+}
+
+.tickets_lst{
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+
+}
+
+.tickets_lst li{
+	height: fit-content;
+	width: fit-content;
+}
+
+.add_ticket{
+	display: flex;
+	justify-content: right;
 }

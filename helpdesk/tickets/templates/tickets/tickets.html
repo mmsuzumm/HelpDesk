@@ -2,15 +2,28 @@
 {% load tickets_tags %}
 
 {% block content %}
-<h1>{{title}}</h1>
-<ul>
+<h1 class="title">{{title}}</h1>
+
+
+<div class='add_ticket'>
+    <form action="{% url 'tickets' %}" method='post' >
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+
+
+<ul class='tickets_lst'>
     {% for t in tickets_params %}
     <li>
-        <a href="{{ t.get_absolute_url }}"><h2>{{t.title}}</h2></a>
+        <a href="{{ t.get_absolute_url }}" class="tickets"><h2>{{t.title}}</h2></a>
         <hr>
     </li>
     {% endfor %}
-
 </ul>
+
+
+
 
 {% endblock content %}

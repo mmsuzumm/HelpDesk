@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template import loader
-from .models import *
+from .models import Tickets, TicketsMessage
+from .forms import AddTicketForm
 
 
 def index(request):  # name=home
@@ -19,7 +20,9 @@ def about(request):
 
 def tickets(request):
     tickets_params = Tickets.objects.all()
+    form = AddTicketForm()
     context = {
+        'form': form,
         'title': 'Тикеты',
         'tickets_params': tickets_params,
     }
@@ -32,8 +35,8 @@ def settings(request):
     })
 
 
-def show_ticket(request, ticket_id):
-    post = get_object_or_404(Tickets, pk=ticket_id)
+def show_ticket(request, ticket_slug):
+    post = get_object_or_404(Tickets, slug=ticket_slug)
     messages = TicketsMessage.objects.all()
     context = {
         'post': post,
@@ -41,3 +44,11 @@ def show_ticket(request, ticket_id):
         'messages': messages,
     }
     return render(request, 'tickets/show_ticket.html', context=context)
+
+
+def support(request):
+    context = {
+        'title': 'Поддержка'
+    }
+    return render(request, 'tickets/support.html', context=context)
+

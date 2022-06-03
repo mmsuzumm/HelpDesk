@@ -1,5 +1,10 @@
 from django.db import models
 from django.urls import reverse
+from .status import status
+STATUS = (('Open', 'Open'), ('In progress', 'In progress'),
+          ('Waiting for vendor', 'Waiting for vendor'),
+          ('Waiting for client', 'Waiting for client'), ('Closed', 'Closed')
+          )
 
 
 class TicketsMessage(models.Model):  # Само наполнение тикетов
@@ -19,7 +24,9 @@ class TicketsMessage(models.Model):  # Само наполнение тикет�
 
 class Tickets(models.Model):  # Каждый тикет
     title = models.CharField(max_length=255, verbose_name='Заголовок')
-    status = models.CharField(max_length=255, default='In Progress', verbose_name='Статус')
+    id_for_user = models.CharField(max_length=6, verbose_name='ticketID')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+    status = models.CharField(max_length=30, default='Open', choices=status(), verbose_name='Статус')
     created_by = models.CharField(max_length=255, verbose_name='Создано')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
 
@@ -27,7 +34,7 @@ class Tickets(models.Model):  # Каждый тикет
         return self.title
 
     def get_absolute_url(self):
-        return reverse('ticket', kwargs={'ticket_id': self.pk})
+        return reverse('ticket', kwargs={'ticket_slug': self.slug})
 
     class Meta:
         verbose_name = 'Tickets'
