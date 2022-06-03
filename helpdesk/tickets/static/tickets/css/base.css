@@ -1,0 +1,37 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	background: #5E5C64FF;
+}
+
+header{
+	color: white;
+	background: black;
+	display: flex;
+	justify-content: center;
+	vertical-align: middle;
+}
+
+.Logo, .Top_menu{
+	margin-right: 25px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.Top_menu li{
+	margin-right: 25px;
+	display: inline-block;
+}
+
+.Top_menu a{
+	font-family: arial;
+	font-size: 15px;
+	color: white;
+	text-decoration: none;
+}
+
+.Top_menu a:hover{
+	color: #99C1F1FF;
+}

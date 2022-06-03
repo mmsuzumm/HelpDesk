@@ -1,4 +1,4 @@
-{% extends 'tickets/base.html'%}
+{% extends 'tickets/base.html' %}
 
 {% block content %}
 <h1>{{title}}</h1>
@@ -6,7 +6,6 @@
     {% for t in tickets_params %}
     <li>
         <a href="{{ t.get_absolute_url }}"><h2>{{t.title}}</h2></a>
-        <p>Последнюю редакцию произвел <b>{{t.updated_by}}</b></p>
         <hr>
     </li>
     {% endfor %}

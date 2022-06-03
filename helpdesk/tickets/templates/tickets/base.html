@@ -1,20 +1,26 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link type="text/css", href="{% static 'tickets/css/styles.css' %}", rel="stylesheets">
-    <title>{{ title }}</title>
+    <link type="text/css" href="{% static 'tickets/css/base.css' %}" rel="stylesheet" />
+    <title>{{title}}</title>
 </head>
 <body>
     {%block mainmenu%}
-    <div class="header">
-        <ul id="mainmenu" class="mainmenu">
-            {% for m in status_menu%}
-            <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+    <header>
+        <div class="header_menu">
+            <div class="Logo">
+                <h1>LOGO</h1>
+            </div>
+            <div class="Top_menu">
+                <ul id="mainmenu" class="mainmenu">
+                    {% for m in status_menu %}
+                    <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </header>
     {%endblock mainmenu%}
     {% block content %}
     {% endblock content %}
