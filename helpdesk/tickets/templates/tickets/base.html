@@ -1,4 +1,5 @@
 {% load static %}
+{% load tickets_tags %}
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -14,7 +15,8 @@
             </div>
             <div class="Top_menu">
                 <ul id="mainmenu" class="mainmenu">
-                    {% for m in status_menu %}
+                    {% menu as menu %}
+                    {% for m in menu %}
                     <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
                     {% endfor %}
                 </ul>

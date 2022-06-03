@@ -1,15 +1,13 @@
 {% extends 'tickets/base.html' %}
-
 {% block content %}
 <h1>{{title}}</h1>
 <ul>
     {% for t in tickets_params %}
     <li>
         <h2>{{t.title}}</h2>
-        <p>Последнюю редакцию произвел <b>{{t.updated_by}}</b></p>
         <hr>
     </li>
     {% endfor %}
 </ul>
 
-{% endblock content %}
+{% endblock %}

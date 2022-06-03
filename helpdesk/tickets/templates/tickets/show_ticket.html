@@ -1,7 +1,13 @@
 {% extends 'tickets/base.html' %}
 
 {% block content %}
-<h1> {{post.content}} </h1>
 
-{{post.content|linebreaks}}
+<h1>{{post.title}}</h1>
+{% for m in messages %}
+	{% if m.which_ticket.pk == post.pk %}
+		<li>{{m.content}}</li>
+	{% endif %}
+{% endfor %}
+
+
 {% endblock %}

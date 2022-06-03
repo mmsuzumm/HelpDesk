@@ -27,7 +27,7 @@ class Tickets(models.Model):  # Каждый тикет
         return self.title
 
     def get_absolute_url(self):
-        return reverse('show_ticket', kwargs={'ticket_name': self.title})
+        return reverse('ticket', kwargs={'ticket_id': self.pk})
 
     class Meta:
         verbose_name = 'Tickets'
