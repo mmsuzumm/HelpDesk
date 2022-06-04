@@ -20,11 +20,10 @@ def about(request):
 
 def tickets(request):
     tickets_params = Tickets.objects.all()
-    form = AddTicketForm()
     context = {
-        'form': form,
         'title': 'Тикеты',
         'tickets_params': tickets_params,
+        'create_ticket': 'create_ticket',
     }
     return render(request, 'tickets/tickets.html', context=context)
 
@@ -52,3 +51,17 @@ def support(request):
     }
     return render(request, 'tickets/support.html', context=context)
 
+
+def create_ticket(request):
+    if request.method == 'POST':
+        form = AddTicketForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            # try:
+            #     Tickets.objects.create
+    else:
+        form = AddTicketForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'tickets/create_ticket.html', context=context)

@@ -1,0 +1,17 @@
+{% extends 'tickets/base.html' %}
+{% block content %}
+    <div class='add_ticket'>
+        <form action="{% url 'create_ticket' %}" method='post' >
+            {% csrf_token %}
+            <!-- Это поля для ввода -->
+
+            {% for f in form %}
+            <p><label class="form-add-ticket" for="{{ f.id_for_label}}">{{f.label}}: </label>{{ f }}</p>
+            <div class="form-error">{{ f.errors }}</div>
+            {% endfor %}
+
+
+            <button type="submit">Добавить</button>
+        </form>
+    </div>
+{% endblock %}

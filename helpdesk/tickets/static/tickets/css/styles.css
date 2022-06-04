@@ -58,6 +58,5 @@ header{
 }
 
 .add_ticket{
-	display: flex;
-	justify-content: right;
+	width: 70%;
 }

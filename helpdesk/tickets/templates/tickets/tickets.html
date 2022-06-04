@@ -4,14 +4,7 @@
 {% block content %}
 <h1 class="title">{{title}}</h1>
 
-
-<div class='add_ticket'>
-    <form action="{% url 'tickets' %}" method='post' >
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Добавить</button>
-    </form>
-</div>
+<a href="{% url create_ticket %}" class="create_ticket"><h2>Создать новый тикет</h2></a>
 
 
 <ul class='tickets_lst'>
@@ -22,8 +15,5 @@
     </li>
     {% endfor %}
 </ul>
-
-
-
 
 {% endblock content %}
