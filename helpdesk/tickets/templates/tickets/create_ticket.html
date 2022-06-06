@@ -3,13 +3,14 @@
     <div class='add_ticket'>
         <form action="{% url 'create_ticket' %}" method='post' >
             {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
             <!-- Это поля для ввода -->
-
-            {% for f in form %}
+            {% for f in form_ticket %}
             <p><label class="form-add-ticket" for="{{ f.id_for_label}}">{{f.label}}: </label>{{ f }}</p>
             <div class="form-error">{{ f.errors }}</div>
             {% endfor %}
-
+            <p><label class="form-message-label" for=" {{ form_message.content.id_for_label }}">{{ form_message.content.label }}</label> {{ form_message.content }}</p>
+            <div class="form-error">{{ form_message.errors }}</div>
 
             <button type="submit">Добавить</button>
         </form>

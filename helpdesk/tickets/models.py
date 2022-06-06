@@ -27,7 +27,7 @@ class Tickets(models.Model):  # Каждый тикет
     id_for_user = models.CharField(max_length=6, verbose_name='ticketID', unique=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
     status = models.CharField(max_length=30, default='Open', choices=status(), verbose_name='Статус')
-    created_by = models.CharField(max_length=255, verbose_name='Создано')
+    created_by = models.CharField(max_length=255, verbose_name='Кем создано')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
 
     def __str__(self):
