@@ -11,9 +11,20 @@
     {% for t in tickets_params %}
     <li>
         <a href="{{ t.get_absolute_url }}" class="tickets"><h2>{{t.title}}</h2></a>
+        <div>{{t.status}}</div>
         <hr>
     </li>
     {% endfor %}
 </ul>
+
+<nav class="list-pages">
+    <ul>
+        {% for p in paginator.page_range %}
+        <li class="page-num ">
+            <a href="?page={{p}}">{{ p }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
 
 {% endblock content %}

@@ -1,5 +1,4 @@
 from django import template
-from tickets.models import Tickets
 register = template.Library()
 
 
@@ -13,9 +12,3 @@ def get_menu():
         {'title': 'Поддержка', 'url_name': 'support'},
     ]
     return menu
-
-
-@register.inclusion_tag('tickets/show_tickets.html')
-def show_tickets():
-    tickets = Tickets.objects.all()
-    return {'tickets': tickets}

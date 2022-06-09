@@ -1,13 +1,12 @@
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.template import loader
-from .models import Tickets, TicketsMessage
+from .models import Tickets as TicketsModel, TicketsMessage
 from .forms import AddTicketForm, AddTicketsMessageForm, AddMessageForm
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
+from django.core.paginator import Paginator
 
-
-class TicketsMainPage(ListView):
-    model = Tickets
+class Tickets(ListView):
+    paginate_by = 5
+    model = TicketsModel
     template_name = 'tickets/tickets.html'
     context_object_name = 'tickets_params'
 
@@ -17,14 +16,41 @@ class TicketsMainPage(ListView):
         context['title'] = 'Тикеты'
         return context
 
-
-class TicketsStatus(ListView):
-    model = Tickets
-    template_name = 'tickets/tickets.html'
-    context_object_name = 'posts'
-
     def get_queryset(self):
-        return Tickets.object.filter(cat__slug=self.kwargs['ticket_slug'], status='Open')
+        return TicketsModel.objects.exclude(status='Closed')
+
+
+class ShowTicket(DetailView):
+    model = TicketsModel
+    template_name = 'tickets/show_ticket.html'
+    context_object_name = 'post'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.kwargs['slug']
+        context['messages'] = TicketsMessage.objects.filter(which_ticket=
+                                                            self.model.objects.get(slug=self.kwargs['slug']))
+        print(context)
+        return context
+
+
+def show_ticket(request, ticket_slug):
+    post = get_object_or_404(TicketsModel, slug=ticket_slug)
+    messages = TicketsMessage.objects.filter(which_ticket=post)
+    context = {
+        'title': post.title,
+        'messages': messages,
+    }
+    return render(request, 'tickets/show_ticket.html', context=context)
+
+
+# class TicketsStatus(ListView):
+#     model = Tickets
+#     template_name = 'tickets/tickets.html'
+#     context_object_name = 'posts'
+#
+#     def get_queryset(self):
+#         return Tickets.object.filter(tickets__slug=self.kwargs['ticket_slug'], status='Open')
 
 
 def index(request):  # name=home
@@ -46,30 +72,6 @@ def settings(request):
     })
 
 
-def show_ticket(request, ticket_slug):
-    # if request.method == 'POST':
-    #     form_message = AddMessageForm(request.POST)
-    #     if form_message.is_valid():
-    #         form_message = form_message.cleaned_data
-    #         try:
-    #             TicketsMessage.objects.create(**form_message)
-    #             return redirect('tickets')
-    #         except:
-    #             form_message.add_error(None, 'Ошибка')  # Необходимо вынести в одтельный файл
-    # else:
-    #     form_message = AddTicketsMessageForm()
-
-    post = get_object_or_404(Tickets, slug=ticket_slug)
-    messages = TicketsMessage.objects.all()
-    context = {
-        'post': post,
-        'title': post.title,
-        'messages': messages,
-        # 'form_message': form_message
-    }
-    return render(request, 'tickets/show_ticket.html', context=context)
-
-
 def support(request):
     context = {
         'title': 'Поддержка'
@@ -86,7 +88,7 @@ def create_ticket(request):
             form_ticket = form_ticket.cleaned_data
             form_ticket['slug'] = form_ticket.get('id_for_user')
             try:
-                temp_obj = Tickets.objects.create(**form_ticket)
+                temp_obj = TicketsModel.objects.create(**form_ticket)
                 form_message['which_ticket'] = temp_obj
                 TicketsMessage.objects.create(**form_message)
                 return redirect('tickets')
