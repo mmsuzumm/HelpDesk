@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Tickets as TicketsModel, TicketsMessage
 from .forms import AddTicketForm, AddTicketsMessageForm, AddMessageForm
@@ -38,6 +39,7 @@ def show_ticket(request, ticket_slug):
     post = get_object_or_404(TicketsModel, slug=ticket_slug)
     messages = TicketsMessage.objects.filter(which_ticket=post)
     context = {
+        'slug': post.slug,
         'title': post.title,
         'messages': messages,
     }
@@ -102,3 +104,12 @@ def create_ticket(request):
         'form_message': form_message,
     }
     return render(request, 'tickets/create_ticket.html', context=context)
+
+
+def login(request):
+    return HttpResponse('login')
+
+
+def register(request):
+    return HttpResponse('register')
+

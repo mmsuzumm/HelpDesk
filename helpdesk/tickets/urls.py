@@ -10,5 +10,7 @@ urlpatterns = [
     path('tickets/<slug:ticket_slug>', views.show_ticket, name='ticket'),
     path('ticket/<slug:slug>', views.ShowTicket.as_view(), name='ticket'),
     path('support/', views.support, name='support'),
-    path('create_new_ticket/', views.create_ticket, name='create_ticket')
+    path('create_new_ticket/', views.create_ticket, name='create_ticket'),
+    path('login/', views.login, name='login'),
+    path('register/', views.register, name='register')
 ]
