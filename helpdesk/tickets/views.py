@@ -1,9 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Tickets as TicketsModel, TicketsMessage
+from rest_framework.viewsets import ModelViewSet
+
+from .models import Tickets as TicketsModel, TicketsMessage as TicketsMessageModel
 from .forms import AddTicketForm, AddTicketsMessageForm, AddMessageForm
-from django.views.generic import ListView, DetailView
-from django.core.paginator import Paginator
+from django.views.generic import ListView, DetailView, CreateView
+
+from .serializers import TicketsSerializer
+
 
 class Tickets(ListView):
     paginate_by = 5
@@ -29,15 +33,44 @@ class ShowTicket(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.kwargs['slug']
-        context['messages'] = TicketsMessage.objects.filter(which_ticket=
+        context['messages'] = TicketsMessageModel.objects.filter(which_ticket=
                                                             self.model.objects.get(slug=self.kwargs['slug']))
         print(context)
         return context
 
 
+# class CreateTicket(CreateView):
+#     form_class = AddTicketForm
+#     template_name = 'tickets/create_ticket.html'
+
+def create_ticket(request):
+    if request.method == 'POST':
+        form_ticket = AddTicketForm(request.POST)
+        form_message = AddTicketsMessageForm(request.POST)
+        if form_ticket.is_valid() and form_message.is_valid():
+            form_message = form_message.cleaned_data
+            form_ticket = form_ticket.cleaned_data
+            form_ticket['slug'] = form_ticket.get('id_for_user')
+            try:
+                temp_obj = TicketsModel.objects.create(**form_ticket)
+                form_message['which_ticket'] = temp_obj
+                TicketsMessageModel.objects.create(**form_message)
+                return redirect('tickets')
+            except:
+                form_ticket.add_error(None, 'Ошибка')  # Необходимо вынести в одтельный файл
+    else:
+        form_ticket = AddTicketForm()
+        form_message = AddTicketsMessageForm()
+    context = {
+        'form_ticket': form_ticket,
+        'form_message': form_message,
+    }
+    return render(request, 'tickets/create_ticket.html', context=context)
+
+
 def show_ticket(request, ticket_slug):
     post = get_object_or_404(TicketsModel, slug=ticket_slug)
-    messages = TicketsMessage.objects.filter(which_ticket=post)
+    messages = TicketsMessageModel.objects.filter(which_ticket=post)
     context = {
         'slug': post.slug,
         'title': post.title,
@@ -81,29 +114,9 @@ def support(request):
     return render(request, 'tickets/support.html', context=context)
 
 
-def create_ticket(request):
-    if request.method == 'POST':
-        form_ticket = AddTicketForm(request.POST)
-        form_message = AddTicketsMessageForm(request.POST)
-        if form_ticket.is_valid() and form_message.is_valid():
-            form_message = form_message.cleaned_data
-            form_ticket = form_ticket.cleaned_data
-            form_ticket['slug'] = form_ticket.get('id_for_user')
-            try:
-                temp_obj = TicketsModel.objects.create(**form_ticket)
-                form_message['which_ticket'] = temp_obj
-                TicketsMessage.objects.create(**form_message)
-                return redirect('tickets')
-            except:
-                form_ticket.add_error(None, 'Ошибка')  # Необходимо вынести в одтельный файл
-    else:
-        form_ticket = AddTicketForm()
-        form_message = AddTicketsMessageForm()
-    context = {
-        'form_ticket': form_ticket,
-        'form_message': form_message,
-    }
-    return render(request, 'tickets/create_ticket.html', context=context)
+class TestPage(ModelViewSet):
+    queryset = TicketsModel.objects.all()
+    serializer_class = TicketsSerializer
 
 
 def login(request):

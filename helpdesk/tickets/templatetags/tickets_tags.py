@@ -10,6 +10,5 @@ def get_menu():
         {'title': 'Настройки', 'url_name': 'settings'},
         {'title': 'О нас', 'url_name': 'about'},
         {'title': 'Поддержка', 'url_name': 'support'},
-        {'title': 'Войти', 'url_name': 'login'}
     ]
     return menu

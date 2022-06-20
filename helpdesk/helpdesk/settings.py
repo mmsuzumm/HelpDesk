@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tickets.apps.TicketsConfig',
+    'bootstrap_modal_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

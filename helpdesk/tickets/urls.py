@@ -1,6 +1,12 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
 
 from . import views
+from .views import TestPage
+
+router = SimpleRouter()
+
+router.register('api/testpage', TestPage)
 
 urlpatterns = [
     path('tickets/', views.Tickets.as_view(), name='tickets'),
@@ -14,3 +20,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register')
 ]
+
+urlpatterns += router.urls
