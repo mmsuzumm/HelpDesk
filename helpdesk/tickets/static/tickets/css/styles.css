@@ -57,9 +57,6 @@ header{
 	width: fit-content;
 }
 
-.add_ticket{
-	width: 70%;
-}
 .list-pages {
 	text-align: center;
 	margin: 0 0 20px 0;
@@ -98,3 +95,7 @@ header{
 .list-pages .page-num-selected:hover {
 	box-shadow: none; 
 }
+
+/*.legend_class{
+	align: right;
+}*/
