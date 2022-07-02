@@ -2,14 +2,11 @@
 {% block content %}
     <div class='add_ticket'>
         <center>
-            <form action="{% url 'create_new_ticket_class' %}" method='post' >
-                <fieldset>
-                    <legend align='right' class='legend_class'>Опишите проблему</legend>
-                </fieldset>
+            <form action="{% url 'create_ticket' %}" method='post' >
                 {% csrf_token %}
                 <div class="form-error">{{ form.non_field_errors }}</div>
                 <!-- Это поля для ввода -->
-                {% for f in form %}
+                {% for f in form_ticket %}
                 <p><label class="form-add-ticket" for="{{ f.id_for_label}}">{{f.label}}: </label>{{ f }}</p>
                 <div class="form-error">{{ f.errors }}</div>
                 {% endfor %}

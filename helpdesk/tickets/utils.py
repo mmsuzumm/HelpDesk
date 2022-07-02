@@ -1,4 +1,4 @@
-from helpdesk.tickets.models import Tickets
+from .models import Tickets
 
 menu = [{'title': 'Главная', 'url_name': 'index'},
         {'title': 'Добавить тикет', 'url_name': 'create_ticket'},
@@ -8,7 +8,6 @@ menu = [{'title': 'Главная', 'url_name': 'index'},
 ]
 
 class DataMixin:
-
     def get_user_context(self, **kwargs):
         context = kwargs
         tickets = Tickets.objects.all()

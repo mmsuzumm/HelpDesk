@@ -1,7 +1,10 @@
 {% extends 'tickets/base.html' %}
 {% block content %}
-
-<h1 class="display_ticket">Тикет № {{slug}}</h1>
+{% if slug %}
+	<h1 class="display_ticket">Тикет № {{slug}}</h1>
+{% else %}
+	<h1 class="display_ticket">Тикет № {{id}}</h1>
+{%endif%}
 <h2 class="display_ticket">{{title}}</h2>
 
 <!--Форма для ввода-->
