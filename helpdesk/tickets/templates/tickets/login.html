@@ -1,0 +1,17 @@
+{% extends 'tickets/base.html' %}
+
+{% block content %}
+<div class="container-register-login">
+  <h1 class="title-acc-register-login"> {{ title }} </h1>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    {% for f in form %}
+    <p><label class = "register-label" for="{{ f.id_for_label }}">{{ f.label }}: </label class="form-register">{{ f }}</p>
+    <div class="form-error">{{ f.errors }}</div>
+    {% endfor %}
+    <button type="submit" class="register-login-button">Войти</button>
+  </form>
+</div>
+
+{% endblock %}

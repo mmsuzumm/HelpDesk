@@ -15,8 +15,9 @@ urlpatterns = [
     path('ticket/<slug:slug>', ShowTicket.as_view(), name='ticket'),
     path('support/', support, name='support'),
     path('create_new_ticket/', create_ticket, name='create_ticket'),
-    path('login/', login, name='login'),
     path('register/', RegisterUser.as_view(), name='register'),
+    path('login/', LoginUser.as_view(), name='login'),
+    path('logout/', logout_user, name='logout'),
 ]
 
 urlpatterns += router.urls

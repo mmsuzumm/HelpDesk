@@ -1,8 +1,11 @@
+from django.contrib.auth import logout, login
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from rest_framework.viewsets import ModelViewSet
 
+from .logic import create_ticket_logic
 from .models import Tickets as TicketsModel, TicketsMessage as TicketsMessageModel
 from .forms import *
 from django.views.generic import ListView, DetailView, CreateView
@@ -48,22 +51,9 @@ class ShowTicket(DetailView):
                                                                  self.model.objects.get(slug=self.kwargs['slug']))
         return context
 
-
 def create_ticket(request):
     if request.method == 'POST':
-        form_ticket = AddTicketForm(request.POST)
-        form_message = AddTicketsMessageForm(request.POST)
-        if form_ticket.is_valid() and form_message.is_valid():
-            form_message = form_message.cleaned_data
-            form_ticket = form_ticket.cleaned_data
-            form_ticket['slug'] = form_ticket.get('id_for_user')
-            try:
-                temp_obj = TicketsModel.objects.create(**form_ticket)
-                form_message['which_ticket'] = temp_obj
-                TicketsMessageModel.objects.create(**form_message)
-                return redirect('tickets')
-            except:
-                form_ticket.add_error(None, 'Ошибка')  # Необходимо вынести в одтельный файл добавление в бд
+        create_ticket_logic()
     else:
         form_ticket = AddTicketForm()
         form_message = AddTicketsMessageForm()
@@ -116,10 +106,6 @@ class TestPage(ModelViewSet):
     serializer_class = TicketsSerializer
 
 
-def login(request):
-    return HttpResponse('login')
-
-
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisteUserForm
     template_name = 'tickets/register.html'
@@ -129,3 +115,25 @@ class RegisterUser(DataMixin, CreateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Регистрация')
         return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('tickets')
+
+class LoginUser(DataMixin, LoginView):
+    form_class = LoginUserForm
+    template_name = 'tickets/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Авторизация')
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
